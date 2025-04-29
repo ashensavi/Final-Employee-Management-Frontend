@@ -1,60 +1,61 @@
-
 <h1 class="heading">Employee Management System</h1>
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <label>
-      Name:
-      <input formControlName="name" />
-      <span *ngIf="form.controls['name'].invalid && form.controls['name'].touched">Required</span>
-    </label>
-    
-    <label>
-      Email:
-      <input formControlName="email" type="email" />
-      <span *ngIf="form.controls['email'].invalid && form.controls['email'].touched">Invalid Email</span>
-    </label>
-  
-    <label>
-      Department:
-      <select formControlName="department">
-        <option value="HR">HR</option>
-        <option value="IT">IT</option>
-        <option value="Finance">Finance</option>
-        <option value="Operations">Operations</option>
-      </select>
-    </label>
-  
-    <button type="submit" [disabled]="form.invalid">Submit</button>
-    <button type="button" (click)="cancel()">Cancel</button>
-  </form>
 
+<!-- Regular Form -->
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <label>
+    Name:
+    <input formControlName="name" />
+    <span *ngIf="form.controls['name'].invalid && form.controls['name'].touched">Required</span>
+  </label>
+
+  <label>
+    Email:
+    <input formControlName="email" type="email" />
+    <span *ngIf="form.controls['email'].invalid && form.controls['email'].touched">Invalid Email</span>
+  </label>
+
+  <label>
+    Department:
+    <select formControlName="department">
+      <option value="">Select Department</option>
+      <option value="HR">HR</option>
+      <option value="IT">IT</option>
+      <option value="Finance">Finance</option>
+      <option value="Operations">Operations</option>
+    </select>
+  </label>
+
+  <button type="submit" [disabled]="form.invalid">Submit</button>
+  <button type="button" (click)="cancel()">Cancel</button>
+</form>
+
+<!-- Edit Modal Form -->
 <div *ngIf="id" class="modal-overlay" (click)="cancel()">
-    <div class="modal-content" (click)="$event.stopPropagation()">
-      <h2>Edit Employee</h2>
-      <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <label>
-          Name:
-          <input formControlName="name" />
-        </label>
-  
-        <label>
-          Email:
-          <input formControlName="email" type="email" />
-        </label>
-  
-        <label>
-          Department:
-          <select formControlName="department">
-            <option value="HR">HR</option>
-            <option value="IT">IT</option>
-            <option value="Finance">Finance</option>
-            <option value="Operations">Operations</option>
-          </select>
-        </label>
-  
-        <button type="submit" [disabled]="form.invalid">Update</button>
-        <button type="button" (click)="cancel()">Cancel</button>
-      </form>
-    </div>
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h2>Edit Employee</h2>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <label>
+        Name:
+        <input formControlName="name" />
+      </label>
+
+      <label>
+        Email:
+        <input formControlName="email" type="email" />
+      </label>
+
+      <label>
+        Department:
+        <select formControlName="department">
+          <option value="HR">HR</option>
+          <option value="IT">IT</option>
+          <option value="Finance">Finance</option>
+          <option value="Operations">Operations</option>
+        </select>
+      </label>
+
+      <button type="submit" [disabled]="form.invalid">Update</button>
+      <button type="button" (click)="cancel()">Cancel</button>
+    </form>
   </div>
-  
-  
+</div>
