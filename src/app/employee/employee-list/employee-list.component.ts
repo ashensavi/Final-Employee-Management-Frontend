@@ -2,15 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { Employee, EmployeeService } from '../../service/EmployeeService';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { NgxPaginationModule } from 'ngx-pagination';
+import * as XLSX from 'xlsx';  
 
 @Component({
   selector: 'app-employee-list',
   templateUrl: './employee-list.component.html',
-  imports: [RouterModule,CommonModule],
+  imports: [RouterModule,CommonModule,NgxPaginationModule],
   styleUrl:'./employee-list.component.css'
 })
 export class EmployeeListComponent implements OnInit {
   employees: Employee[] = [];
+  p: number = 1; 
+  itemsPerPage: number = 5;
 
   constructor(private employeeService: EmployeeService, private router: Router, private route: ActivatedRoute) {}
 
@@ -33,6 +37,13 @@ export class EmployeeListComponent implements OnInit {
     this.router.navigate(['edit', id]);
     console.log('Current URL:', this.router.url);
 
+  }
+  exportToExcel(): void {
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.employees); 
+    const wb: XLSX.WorkBook = XLSX.utils.book_new(); 
+    XLSX.utils.book_append_sheet(wb, ws, 'Employees');
+    
+    XLSX.writeFile(wb, 'Employee_Details.xlsx');
   }
   
 }

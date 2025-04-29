@@ -1,6 +1,5 @@
 <h1 class="heading">Employee Management System</h1>
 <div class="container">
-    <button routerLink="/employees/add">Add Employee</button>
     <table>
       <thead>
         <tr>
@@ -12,7 +11,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let emp of employees">
+        <tr *ngFor="let emp of employees | paginate: { itemsPerPage: itemsPerPage, currentPage: p }">
           <td>{{ emp.id }}</td>
           <td>{{ emp.name }}</td>
           <td>{{ emp.email }}</td>
@@ -25,5 +24,11 @@
         </tr>
       </tbody>
     </table>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    <div class="buttons">
+    <button class="excel-btn" (click)="exportToExcel()">Print Employee Details</button> 
+    <button class="add-emp-btn" routerLink="/employees/add">Add Employee</button>
+    </div>  
+
   </div>
   
