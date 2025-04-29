@@ -18,7 +18,7 @@
           <td>{{ emp.department }}</td>
           <td>
             <button [routerLink]="['/edit', emp.id]">Edit</button>
-            <button (click)="delete(emp.id)">Delete</button>
+            <button *ngIf="emp.id !== undefined" (click)="delete(emp.id)">Delete</button>
           </td>
         </tr>
       </tbody>

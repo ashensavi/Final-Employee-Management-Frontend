@@ -2,21 +2,22 @@
     <label>
       Name:
       <input formControlName="name" />
-      <span *ngIf="form.controls.name.invalid && form.controls.name.touched">Required</span>
+      <span *ngIf="form.controls['name'].invalid && form.controls['name'].touched">Required</span>
     </label>
     
     <label>
       Email:
       <input formControlName="email" type="email" />
-      <span *ngIf="form.controls.email.invalid && form.controls.email.touched">Invalid Email</span>
+      <span *ngIf="form.controls['email'].invalid && form.controls['email'].touched">Invalid Email</span>
     </label>
   
     <label>
       Department:
       <select formControlName="department">
         <option value="HR">HR</option>
-        <option value="Engineering">Engineering</option>
+        <option value="IT">IT</option>
         <option value="Finance">Finance</option>
+        <option value="Operations">Operations</option>
       </select>
     </label>
   
