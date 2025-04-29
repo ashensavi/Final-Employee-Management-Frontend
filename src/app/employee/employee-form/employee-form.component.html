@@ -1,3 +1,5 @@
+
+<h1 class="heading">Employee Management System</h1>
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <label>
       Name:
@@ -25,9 +27,7 @@
     <button type="button" (click)="cancel()">Cancel</button>
   </form>
 
-  <!-- Modal overlay -->
 <div *ngIf="id" class="modal-overlay" (click)="cancel()">
-    <!-- Modal content -->
     <div class="modal-content" (click)="$event.stopPropagation()">
       <h2>Edit Employee</h2>
       <form [formGroup]="form" (ngSubmit)="onSubmit()">

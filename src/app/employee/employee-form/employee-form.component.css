@@ -67,6 +67,10 @@ form {
     margin-left: 0.5rem;
   }
 
+  .heading{
+    text-align: center;
+  }
+
   /* Modal css */
   .modal-overlay {
     position: fixed;

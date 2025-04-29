@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   selector: 'app-employee-form',
   standalone: true,
   templateUrl: './employee-form.component.html',
+  styleUrl:'./employee-form.component.css',
   imports: [CommonModule, ReactiveFormsModule]
 })
 export class EmployeeFormComponent implements OnInit {
