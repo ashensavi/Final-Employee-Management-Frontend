@@ -24,4 +24,37 @@
     <button type="submit" [disabled]="form.invalid">Submit</button>
     <button type="button" (click)="cancel()">Cancel</button>
   </form>
+
+  <!-- Modal overlay -->
+<div *ngIf="id" class="modal-overlay" (click)="cancel()">
+    <!-- Modal content -->
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <h2>Edit Employee</h2>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <label>
+          Name:
+          <input formControlName="name" />
+        </label>
+  
+        <label>
+          Email:
+          <input formControlName="email" type="email" />
+        </label>
+  
+        <label>
+          Department:
+          <select formControlName="department">
+            <option value="HR">HR</option>
+            <option value="IT">IT</option>
+            <option value="Finance">Finance</option>
+            <option value="Operations">Operations</option>
+          </select>
+        </label>
+  
+        <button type="submit" [disabled]="form.invalid">Update</button>
+        <button type="button" (click)="cancel()">Cancel</button>
+      </form>
+    </div>
+  </div>
+  
   

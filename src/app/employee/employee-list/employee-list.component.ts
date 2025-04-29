@@ -1,18 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Employee, EmployeeService } from '../../service/EmployeeService';
-import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-employee-list',
   templateUrl: './employee-list.component.html',
-  imports: [BrowserModule,RouterModule
-  ],
+  imports: [RouterModule,CommonModule],
 })
 export class EmployeeListComponent implements OnInit {
   employees: Employee[] = [];
 
-  constructor(private employeeService: EmployeeService) {}
+  constructor(private employeeService: EmployeeService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadEmployees();
@@ -28,5 +27,9 @@ export class EmployeeListComponent implements OnInit {
 
   sort(key: keyof Employee): void {
     this.employees.sort((a, b) => a[key]! > b[key]! ? 1 : -1);
+  }
+  editEmployee(id: number): void {
+  
+    this.router.navigate([`/employees/edit/${id}`]);
   }
 }

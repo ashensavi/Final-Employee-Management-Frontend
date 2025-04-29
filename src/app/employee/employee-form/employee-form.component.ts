@@ -1,18 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from '../../service/EmployeeService';
 import { CommonModule } from '@angular/common';
-
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-employee-form',
+  standalone: true,
   templateUrl: './employee-form.component.html',
-  imports:[CommonModule,ReactiveFormsModule]
+  imports: [CommonModule, ReactiveFormsModule]
 })
 export class EmployeeFormComponent implements OnInit {
   form: FormGroup;
   id?: number;
+  employee: any;
 
   constructor(
     private fb: FormBuilder,
@@ -28,22 +30,28 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.id = +this.route.snapshot.paramMap.get('id')!;
+    const param = this.route.snapshot.paramMap.get('id');
+    this.id = param ? +param : undefined;
     if (this.id) {
-      this.employeeService.searchEmployee(this.id).subscribe(emp => this.form.patchValue(emp));
+      this.employeeService.searchEmployee(this.id).subscribe(emp => {
+        this.employee = emp;
+        this.form.patchValue(emp);
+      });
     }
   }
 
   onSubmit(): void {
-    if (this.id) {
-      this.employeeService.addEmployee({ id: this.id, ...this.form.value }).subscribe(() => this.router.navigate(['/']));
-    } else {
-      this.employeeService.addEmployee(this.form.value).subscribe(() => this.router.navigate(['/']));
-    }
+    const formData = this.form.value;
+    const action = this.id
+      ? this.employeeService.addEmployee({ id: this.id, ...formData })
+      : this.employeeService.addEmployee(formData);
+
+    action.subscribe(() => {
+      this.router.navigate(['/employees']);
+    });
   }
 
   cancel(): void {
-    this.router.navigate(['/']);
+    this.router.navigate(['/employees']);
   }
 }
-
