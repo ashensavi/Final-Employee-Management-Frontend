@@ -1,34 +1,44 @@
 <h1 class="heading">Employee Management System</h1>
 <div class="container">
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th (click)="sort('name')">Name</th>
-          <th>Email</th>
-          <th (click)="sort('department')">Department</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let emp of employees | paginate: { itemsPerPage: itemsPerPage, currentPage: p }">
-          <td>{{ emp.id }}</td>
-          <td>{{ emp.name }}</td>
-          <td>{{ emp.email }}</td>
-          <td>{{ emp.department }}</td>
-          <td>
-            <button [routerLink]="['edit', emp.id]">Edit</button>
-            <button class="delete-button" *ngIf="emp.id !== undefined" (click)="delete(emp.id)">Delete</button>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th (click)="sort('name')">Name</th>
+        <th>Email</th>
+        <th (click)="sort('department')">Department</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let emp of employees | paginate: { itemsPerPage: itemsPerPage, currentPage: p }">
+        <td>{{ emp.id }}</td>
+        <td>{{ emp.name }}</td>
+        <td>{{ emp.email }}</td>
+        <td>{{ emp.department }}</td>
+        <td>
+          <button [routerLink]="['edit', emp.id]">Edit</button>
+          <button *ngIf="emp.id !== undefined" (click)="confirmDelete(emp.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <pagination-controls (pageChange)="p = $event"></pagination-controls>
-    <div class="buttons">
-    <button class="excel-btn" (click)="exportToExcel()">Print Employee Details</button> 
-    <button class="add-emp-btn" routerLink="/employees/add">Add Employee</button>
-    </div>  
+  <!-- Pagination Controls -->
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
 
+  <!-- Delete Confirmation Modal -->
+  <div *ngIf="isDeleteConfirmationVisible" class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <h2>Are you sure you want to delete this employee?</h2>
+      <p>{{ selectedEmployee?.name }}</p>
+      <button (click)="deleteEmployee()">Yes, Delete</button>
+      <button (click)="closeModal()">Cancel</button>
+    </div>
   </div>
-  
+
+  <div class="buttons">
+    <button class="excel-btn" (click)="exportToExcel()">Print Employee Details</button>
+    <button class="add-emp-btn" routerLink="/employees/add">Add Employee</button>
+  </div>  
+</div>

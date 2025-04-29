@@ -9,12 +9,14 @@ import * as XLSX from 'xlsx';
   selector: 'app-employee-list',
   templateUrl: './employee-list.component.html',
   imports: [RouterModule,CommonModule,NgxPaginationModule],
-  styleUrl:'./employee-list.component.css'
+  styleUrls: ['./employee-list.component.css']
 })
 export class EmployeeListComponent implements OnInit {
   employees: Employee[] = [];
   p: number = 1; 
   itemsPerPage: number = 5;
+  isDeleteConfirmationVisible = false;
+  selectedEmployee: any;
 
   constructor(private employeeService: EmployeeService, private router: Router, private route: ActivatedRoute) {}
 
@@ -33,17 +35,35 @@ export class EmployeeListComponent implements OnInit {
   sort(key: keyof Employee): void {
     this.employees.sort((a, b) => a[key]! > b[key]! ? 1 : -1);
   }
+
   editEmployee(id: number): void {
     this.router.navigate(['edit', id]);
     console.log('Current URL:', this.router.url);
-
   }
+
   exportToExcel(): void {
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.employees); 
     const wb: XLSX.WorkBook = XLSX.utils.book_new(); 
     XLSX.utils.book_append_sheet(wb, ws, 'Employees');
-    
     XLSX.writeFile(wb, 'Employee_Details.xlsx');
   }
-  
+
+  confirmDelete(employeeId: number): void {
+    this.selectedEmployee = this.employees.find(emp => emp.id === employeeId);
+    this.isDeleteConfirmationVisible = true;
+  }
+
+  deleteEmployee(): void {
+    if (this.selectedEmployee) {
+      this.employeeService.deleteEmployee(this.selectedEmployee.id).subscribe(() => {
+        this.loadEmployees(); 
+        this.closeModal(); 
+      });
+    }
+  }
+
+  closeModal(): void {
+    this.isDeleteConfirmationVisible = false;
+    this.selectedEmployee = null; 
+  }
 }
